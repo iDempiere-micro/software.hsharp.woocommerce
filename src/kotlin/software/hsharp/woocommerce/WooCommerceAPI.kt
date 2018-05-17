@@ -2,7 +2,7 @@ package software.hsharp.woocommerce
 
 import software.hsharp.woocommerce.impl.*
 
-class WooCommerceAPI(config : Config, apiVersion : ApiVersionType) : IWooCommerce, WooCommerceBase(config, apiVersion) {
+class WooCommerceAPI(config : IConfig, apiVersion : ApiVersionType) : IWooCommerce, WooCommerceBase(config, apiVersion) {
     override fun getOrder(id: Int): IOrder {
         val order : SingleOrder =
                 get<SingleOrder>(
@@ -18,7 +18,7 @@ class WooCommerceAPI(config : Config, apiVersion : ApiVersionType) : IWooCommerc
                 getAll(
                         EndpointBaseType.ORDERS.value,
                         mapOf(),
-                        { Order(it as Map<String, Any?>) }
+                        { MappedOrder(it as Map<String, Any?>) }
                 ).map { it as IOrder }.toTypedArray()
         return orders
     }

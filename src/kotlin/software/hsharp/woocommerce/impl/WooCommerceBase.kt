@@ -6,12 +6,17 @@ import com.github.kittinunf.fuel.httpGet
 import software.hsharp.woocommerce.oauth.HttpMethod
 import software.hsharp.woocommerce.oauth.OAuthSignature
 
+interface IConfig {
+    val url : String
+    val consumerKey : String
+    val consumerSecret : String
+}
 
 data class Config(
-        val url : String,
-        val consumerKey : String,
-        val consumerSecret : String
-)
+        override val url : String,
+        override val consumerKey : String,
+        override val consumerSecret : String
+) : IConfig
 
 
 /**
@@ -22,7 +27,7 @@ enum class ApiVersionType constructor(val value: String) {
     V2("v2")
 }
 
-open class WooCommerceBase(val config : Config, val apiVersion : ApiVersionType) {
+open class WooCommerceBase(val config : IConfig, val apiVersion : ApiVersionType) {
 
     fun create(endpointBase: String, context: Map<String, Any>): Map<*, *> {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.

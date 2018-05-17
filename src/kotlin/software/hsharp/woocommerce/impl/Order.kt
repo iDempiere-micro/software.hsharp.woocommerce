@@ -2,7 +2,7 @@ package software.hsharp.woocommerce.impl
 
 import software.hsharp.woocommerce.IOrder
 
-data class Order(val map: Map<String, Any?>) : IOrder
+data class MappedOrder(val map: Map<String, Any?>) : IOrder
 {
     override val id : Int by map
     override val number : String by map

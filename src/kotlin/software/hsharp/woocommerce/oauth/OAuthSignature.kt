@@ -2,6 +2,7 @@ package software.hsharp.woocommerce.oauth
 
 import org.apache.commons.codec.binary.Base64
 import software.hsharp.woocommerce.impl.Config
+import software.hsharp.woocommerce.impl.IConfig
 import javax.crypto.Mac
 import javax.crypto.spec.SecretKeySpec
 import java.io.UnsupportedEncodingException
@@ -70,7 +71,7 @@ object OAuthSignature {
     }
 
     @JvmOverloads
-    fun getAsQueryString(config: Config?, endpoint: String?, httpMethod: HttpMethod?, params: Map<String, String> = emptyMap()): String {
+    fun getAsQueryString(config: IConfig?, endpoint: String?, httpMethod: HttpMethod?, params: Map<String, String> = emptyMap()): String {
         /*
         if (config == null || endpoint == null || httpMethod == null) {
             return ""
