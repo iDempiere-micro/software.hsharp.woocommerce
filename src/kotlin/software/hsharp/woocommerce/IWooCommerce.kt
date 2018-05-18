@@ -29,6 +29,7 @@ interface IWooCommerce {
      */
     //fun getAll(endpointBase: String, params: Map<String, String>): List<*>
     fun getOrders():Array<IOrder>
+    fun getProducts(): Array<IProduct>
 
     /**
      * Retrieves all WooCommerce entities

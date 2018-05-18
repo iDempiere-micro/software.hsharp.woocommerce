@@ -23,4 +23,13 @@ class WooCommerceAPI(config : IConfig, apiVersion : ApiVersionType) : IWooCommer
         return orders
     }
 
+    override fun getProducts(): Array<IProduct> {
+        val products : Array<IProduct> =
+                getAll(
+                        EndpointBaseType.PRODUCTS.value,
+                        mapOf(),
+                        { MappedProduct(it as Map<String, Any?>) }
+                ).map { it as IProduct }.toTypedArray()
+        return products
+    }
 }

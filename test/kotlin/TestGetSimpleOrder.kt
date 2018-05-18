@@ -17,7 +17,7 @@ import software.hsharp.woocommerce.impl.*
 import org.compiere.process.ProcessInfoParameter
 import org.idempiere.common.util.Env.getAD_User_ID
 import org.idempiere.common.util.Env.getAD_Client_ID
-
+import software.hsharp.woocommerce.IProduct
 
 
 class TestGetSimpleOrder {
@@ -34,6 +34,13 @@ class TestGetSimpleOrder {
         val wooCommerce = WooCommerceAPI(config, ApiVersionType.V2)
         val orders : Array<IOrder> = wooCommerce.getOrders()
         orders.forEach { println("Order:$it") }
+    }
+    @Test
+    fun getAllProducts() {
+        val config = Secrets()
+        val wooCommerce = WooCommerceAPI(config, ApiVersionType.V2)
+        val products: Array<IProduct> = wooCommerce.getProducts()
+        products.forEach { println("Product:$it") }
     }
     @Test
     fun createNewOrder() {
