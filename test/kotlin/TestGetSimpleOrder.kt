@@ -15,8 +15,11 @@ import software.hsharp.woocommerce.IOrder
 import software.hsharp.woocommerce.WooCommerceAPI
 import software.hsharp.woocommerce.impl.*
 import org.compiere.process.ProcessInfoParameter
+import org.compiere.product.X_I_Product
 import org.idempiere.common.util.Env.getAD_User_ID
 import org.idempiere.common.util.Env.getAD_Client_ID
+import org.idempiere.process.ImportProduct
+import org.junit.Ignore
 import software.hsharp.woocommerce.IProduct
 
 
@@ -119,5 +122,52 @@ class TestGetSimpleOrder {
 
         println( "pinfo:$pinfo" )
     }
+
+    @Ignore("Unfinished")
+    fun createNewImportProductAndProcess() {
+        Ini.getIni().isClient = false
+        CLogger.getCLogger(TestGetSimpleOrder::class.java)
+        Ini.getIni().properties
+        val db = Database()
+        db.setDatabase(DB_PostgreSQL())
+        DB.setDBTarget(CConnection.get(null))
+        DB.isConnected()
+
+        val ctx = Env.getCtx()
+        val AD_CLIENT_ID = 11
+        val AD_CLIENT_ID_s = AD_CLIENT_ID.toString()
+        ctx.setProperty(Env.AD_CLIENT_ID, AD_CLIENT_ID_s )
+        Env.setContext(ctx, Env.AD_CLIENT_ID, AD_CLIENT_ID_s )
+        val AD_ORG_ID = 11
+        val AD_ORG_ID_s = AD_ORG_ID.toString()
+        ctx.setProperty(Env.AD_ORG_ID, AD_ORG_ID_s )
+        Env.setContext(ctx, Env.AD_ORG_ID, AD_ORG_ID_s )
+
+        val newProduct = X_I_Product( ctx, 0, null )
+
+        newProduct.bPartner_Value = "Wood, Inc"
+        TODO( "add all the required values" )
+
+        newProduct.save()
+        val id = newProduct._ID
+        println( "id:${id}" )
+        Assert.assertTrue( id > 0 )
+
+        val importProduct = ImportProduct()
+        val pinfo = ProcessInfo("Import Test Product", 206);
+
+        val parameters : Array<ProcessInfoParameter> = arrayOf(
+                ProcessInfoParameter( "AD_Client_ID", AD_CLIENT_ID.toBigDecimal(), null, null, null ),
+                ProcessInfoParameter( "M_PriceList_Version_ID", 101, null, null, null )
+        )
+
+        pinfo.aD_Client_ID = AD_CLIENT_ID
+        pinfo.parameter = parameters
+
+        importProduct.startProcess(ctx, pinfo, null)
+
+        println( "pinfo:$pinfo" )
+    }
+
 
 }
