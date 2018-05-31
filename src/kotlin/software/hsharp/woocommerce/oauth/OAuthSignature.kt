@@ -83,7 +83,7 @@ object OAuthSignature {
         return mapToString(oauthParameters, SpecialSymbol.EQUAL.plain, SpecialSymbol.AMP.plain)
         */
 
-        return "consumer_key=${config!!.consumerKey}&consumer_secret=${config!!.consumerSecret}"
+        return "consumer_key=${config!!.consumerKey}&consumer_secret=${config!!.consumerSecret}&per_page=100"
     }
 
     private fun generateOAuthSignature(customerSecret: String, endpoint: String, httpMethod: HttpMethod, parameters: Map<String, String>): String {

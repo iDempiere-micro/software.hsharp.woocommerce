@@ -18,7 +18,7 @@ interface IWooCommerce {
      * @return Retrieved WooCommerce entity
      */
     //inline fun <reified T: Any> get(endpointBase: String, id: Int): T
-    fun getOrder(id:Int):IOrder
+    fun getOrder(id:Int):SingleOrder
 
     /**
      * Retrieves all WooCommerce entities with request parameters
@@ -28,7 +28,7 @@ interface IWooCommerce {
      * @return List of retrieved entities
      */
     //fun getAll(endpointBase: String, params: Map<String, String>): List<*>
-    fun getOrders():Array<IOrder>
+    fun getOrders():Array<SingleOrder>
     fun getProducts(): Array<IProduct>
 
     /**

@@ -1,10 +1,12 @@
 package software.hsharp.woocommerce.impl
 
-import software.hsharp.woocommerce.IOrder
-
-data class MappedOrder(val map: Map<String, Any?>) : IOrder
+data class MappedOrder(val map: Map<String, Any?>)
 {
-    override val id : Int by map
+    val id : Int by map
+
+    /* this is left here as a warning why I did not want to go this way and
+    used the "strange" way to get Order by ID
+
     override val number : String by map
     override val status : String by map
     override val currency : String by map
@@ -24,5 +26,5 @@ data class MappedOrder(val map: Map<String, Any?>) : IOrder
                     "currency" to currency,
                     "total" to total
             )
-    )
+    )*/
 }

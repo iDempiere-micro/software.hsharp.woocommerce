@@ -1,9 +1,8 @@
-package software.hsharp.woocommerce.impl
+package software.hsharp.woocommerce
 
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties
 import com.fasterxml.jackson.annotation.JsonProperty
-import software.hsharp.woocommerce.IOrder
 
 @JsonIgnoreProperties( "taxes", "meta_data" )
 data class ShippingLinesItem(@JsonProperty("total")
@@ -17,7 +16,9 @@ data class ShippingLinesItem(@JsonProperty("total")
                              @JsonProperty("total_tax")
                              val totalTax: String = "",
                              @JsonProperty("method_title")
-                             val methodTitle: String = "")
+                             val methodTitle: String = "",
+                             @JsonProperty("instance_id")
+                             val instanceId: String = "")
 
 
 data class MetaDataItem(@JsonProperty("id")
@@ -83,10 +84,13 @@ data class Billing(@JsonProperty("country")
 data class Links(@JsonProperty("self")
                  val self: List<SelfItem>?,
                  @JsonProperty("collection")
-                 val collection: List<CollectionItem>?)
+                 val collection: List<CollectionItem>?,
+                 @JsonProperty("customer")
+                 val customer : List<SelfItem>?
+                 )
 
 
-@JsonIgnoreProperties( "tax_lines", "fee_lines", "coupon_lines", "refunds" )
+@JsonIgnoreProperties( "tax_lines", "fee_lines", "coupon_lines", "refunds", "meta_data" )
 data class SingleOrder(@JsonProperty("discount_total")
                        val discountTotal: String = "",
                        @JsonProperty("order_key")
@@ -102,9 +106,9 @@ data class SingleOrder(@JsonProperty("discount_total")
                        @JsonProperty("billing")
                        val billing: Billing,
                        @JsonProperty("number")
-                       override val number: String = "",
+                       val number: String = "",
                        @JsonProperty("total")
-                       override val total: String = "",
+                       val total: String = "",
                        @JsonProperty("shipping")
                        val shipping: Shipping,
                        @JsonProperty("date_paid_gmt")
@@ -115,14 +119,14 @@ data class SingleOrder(@JsonProperty("discount_total")
                        val customerUserAgent: String = "",
                        @JsonProperty("payment_method_title")
                        val paymentMethodTitle: String = "",
-                       @JsonProperty("meta_data")
-                       val metaData: List<MetaDataItem>?,
+                       /*@JsonProperty("meta_data")
+                       val metaData: List<MetaDataItem>?,*/
                        @JsonProperty("date_completed")
                        val dateCompleted: String? = null,
                        @JsonProperty("currency")
-                       override val currency: String = "",
+                       val currency: String = "",
                        @JsonProperty("id")
-                       override val id: Int = 0,
+                       val id: Int = 0,
                        @JsonProperty("date_completed_gmt")
                        val dateCompletedGmt: String? = null,
                        @JsonProperty("payment_method")
@@ -162,7 +166,7 @@ data class SingleOrder(@JsonProperty("discount_total")
                        @JsonProperty("customer_id")
                        val customerId: Int = 0,
                        @JsonProperty("status")
-                       override val status: String = "") : IOrder
+                       val status: String = "")
 
 
 data class CollectionItem(@JsonProperty("href")
