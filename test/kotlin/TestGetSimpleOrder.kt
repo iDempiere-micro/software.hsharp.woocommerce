@@ -12,17 +12,21 @@ import org.idempiere.process.ImportOrder
 import org.junit.Assert
 import org.junit.Test
 import pg.org.compiere.db.DB_PostgreSQL
-import software.hsharp.woocommerce.SingleOrder
-import software.hsharp.woocommerce.WooCommerceAPI
 import software.hsharp.woocommerce.impl.*
 import org.compiere.process.ProcessInfoParameter
 import org.compiere.product.X_I_Product
 import org.idempiere.common.util.Env.getAD_User_ID
 import org.idempiere.common.util.Env.getAD_Client_ID
+import org.idempiere.process.Export
 import org.idempiere.process.ImportBPartner
 import org.idempiere.process.ImportProduct
 import org.junit.Ignore
-import software.hsharp.woocommerce.IProduct
+import software.hsharp.woocommerce.*
+import java.sql.Date
+import java.time.Instant
+import java.time.format.DateTimeFormatter
+import java.time.temporal.TemporalAccessor
+import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 
 
 class TestGetSimpleOrder {
@@ -33,6 +37,7 @@ class TestGetSimpleOrder {
         val order : SingleOrder = wooCommerce.getOrder(1290)
         println("Order:$order")
     }
+
     @Ignore
     fun getAllOrders() {
         val config = Secrets()
@@ -40,6 +45,7 @@ class TestGetSimpleOrder {
         val orders : Array<SingleOrder> = wooCommerce.getOrders()
         orders.forEach { println("Order:$it") }
     }
+
     @Ignore
     fun getAllProducts() {
         val config = Secrets()
@@ -47,6 +53,7 @@ class TestGetSimpleOrder {
         val products: Array<IProduct> = wooCommerce.getProducts()
         products.forEach { println("Product:$it") }
     }
+
     @Ignore
     fun createNewOrder() {
         Ini.getIni().isClient = false
@@ -125,8 +132,7 @@ class TestGetSimpleOrder {
         println( "pinfo:$pinfo" )
     }
 
-
-    @Test
+    @Ignore
     fun importFromWooCommerceAndProcess() {
         println( org.compiere.impl.X_C_BPartner::class.java )
 
@@ -213,6 +219,7 @@ class TestGetSimpleOrder {
                     newOrder.salesRep_ID = 1000001
                     newOrder.countryCode = order.billing.country
                     newOrder.documentNo = order.number
+                    newOrder.dateOrdered = parseDate(order.dateCreated)
                     newOrder.save()
                     val id = newOrder._ID
                     println("id:${id}")
@@ -326,5 +333,41 @@ class TestGetSimpleOrder {
         importProduct.startProcess(ctx, pinfo, null)
 
         println( "pinfo:$pinfo" )
+    }
+
+    @Test
+    fun exportOrderToXml() {
+        Ini.getIni().isClient = false
+        CLogger.getCLogger(TestGetSimpleOrder::class.java)
+        Ini.getIni().properties
+        val db = Database()
+        db.setDatabase(DB_PostgreSQL())
+        DB.setDBTarget(CConnection.get(null))
+        DB.isConnected()
+
+        val ctx = Env.getCtx()
+        val AD_CLIENT_ID = 1000000
+        val AD_CLIENT_ID_s = AD_CLIENT_ID.toString()
+        ctx.setProperty(Env.AD_CLIENT_ID, AD_CLIENT_ID_s )
+        Env.setContext(ctx, Env.AD_CLIENT_ID, AD_CLIENT_ID_s )
+        val AD_ORG_ID = 1000000
+        val AD_ORG_ID_s = AD_ORG_ID.toString()
+        ctx.setProperty(Env.AD_ORG_ID, AD_ORG_ID_s )
+        Env.setContext(ctx, Env.AD_ORG_ID, AD_ORG_ID_s )
+
+        val order = MOrder( ctx, 1000019, "test" )
+        val exportOrder = ExportOrder(
+                order
+        )
+        val order1 = MOrder( ctx, 1000002, "test" )
+        val exportOrder1 = ExportOrder(
+                order1
+        )
+
+        val orders : Array<ExportOrder> = arrayOf(exportOrder, exportOrder1)
+
+        val xml = write2XMLString(orders)
+
+        println( "XML:$xml" )
     }
 }
