@@ -15,18 +15,10 @@ import pg.org.compiere.db.DB_PostgreSQL
 import software.hsharp.woocommerce.impl.*
 import org.compiere.process.ProcessInfoParameter
 import org.compiere.product.X_I_Product
-import org.idempiere.common.util.Env.getAD_User_ID
-import org.idempiere.common.util.Env.getAD_Client_ID
-import org.idempiere.process.Export
-import org.idempiere.process.ImportBPartner
+import org.compiere.crm.ImportBPartner
 import org.idempiere.process.ImportProduct
 import org.junit.Ignore
 import software.hsharp.woocommerce.*
-import java.sql.Date
-import java.time.Instant
-import java.time.format.DateTimeFormatter
-import java.time.temporal.TemporalAccessor
-import java.time.format.DateTimeFormatter.ISO_DATE_TIME
 
 
 class TestGetSimpleOrder {
