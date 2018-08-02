@@ -28,11 +28,6 @@ enum class ApiVersionType constructor(val value: String) {
 }
 
 open class WooCommerceBase(val config : IConfig, val apiVersion : ApiVersionType) {
-
-    fun create(endpointBase: String, context: Map<String, Any>): Map<*, *> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
     inline fun <reified T:Any> get(
             endpointBase: String,
             id: Int,
@@ -42,7 +37,7 @@ open class WooCommerceBase(val config : IConfig, val apiVersion : ApiVersionType
         val signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET)
         val securedUrl = "$url?$signature"
 
-        val (request, response, result) = securedUrl.httpGet().responseString()
+        val (_, _, result) = securedUrl.httpGet().responseString()
         val data = result.get()
 
         val mapper = ObjectMapper().registerModule(KotlinModule())
@@ -61,7 +56,7 @@ open class WooCommerceBase(val config : IConfig, val apiVersion : ApiVersionType
         val signature = OAuthSignature.getAsQueryString(config, url, HttpMethod.GET, params)
         val securedUrl = "$url?$signature"
 
-        val (request, response, result) = securedUrl.httpGet().responseString()
+        val (_, _, result) = securedUrl.httpGet().responseString()
         val data = result.get()
 
         val mapper = ObjectMapper().registerModule(KotlinModule())
@@ -70,15 +65,6 @@ open class WooCommerceBase(val config : IConfig, val apiVersion : ApiVersionType
 
         return dataObj.map { factoryMethod(it) }.toTypedArray()
     }
-
-    fun update(endpointBase: String, id: Int, `object`: Map<String, Any>): Map<*, *> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
-    fun delete(endpointBase: String, id: Int): Map<*, *> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
-
 }
 
 /**

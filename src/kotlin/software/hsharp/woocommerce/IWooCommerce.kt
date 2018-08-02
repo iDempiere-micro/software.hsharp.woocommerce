@@ -2,15 +2,6 @@ package software.hsharp.woocommerce
 
 interface IWooCommerce {
     /**
-     * Creates WooCommerce entity
-     *
-     * @param endpointBase API endpoint base @see EndpointBaseType
-     * @param object       Map with entity properties and values
-     * @return Map with created entity
-     */
-    fun create(endpointBase: String, context: Map<String, Any>): Map<*, *>
-
-    /**
      * Retrieves on WooCommerce entity
      *
      * @param endpointBase API endpoint base @see EndpointBaseType
@@ -40,23 +31,4 @@ interface IWooCommerce {
     /*fun getAll(endpointBase: String): List<*> {
         return getAll(endpointBase, mapOf())
     }*/
-
-    /**
-     * Updates WooCommerce entity
-     *
-     * @param endpointBase API endpoint base @see EndpointBaseType
-     * @param id           id of the entity to update
-     * @param object       Map with updated properties
-     * @return updated WooCommerce entity
-     */
-    fun update(endpointBase: String, id: Int, `object`: Map<String, Any>): Map<*, *>
-
-    /**
-     * Deletes WooCommerce entity
-     *
-     * @param endpointBase API endpoint base @see EndpointBaseType
-     * @param id           id of the entity to update
-     * @return deleted WooCommerce entity
-     */
-    fun delete(endpointBase: String, id: Int): Map<*, *>
 }
