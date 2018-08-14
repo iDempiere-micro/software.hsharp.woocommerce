@@ -21,13 +21,13 @@ data class BusinessPartner(private val partner: I_C_BPartner) {
 }
 
 data class BusinessPartnerLocation(private val location: I_C_BPartner_Location) {
-    val address1: String? get() = location.c_Location.Address1
+    val address1: String? get() = location.c_Location.address1
     /*val address2 : String? get() = location.c_Location.Address2
     val address3 : String? get() = location.c_Location.Address3
     val address4 : String? get() = location.c_Location.Address4*/
-    val city: String? get() = location.c_Location.City
-    val country: String? get() = location.c_Location.CountryName
-    val zip: String? get() = location.c_Location.Postal
+    val city: String? get() = location.c_Location.city
+    val country: String? get() = location.c_Location.countryName
+    val zip: String? get() = location.c_Location.postal
 }
 
 data class ExportProduct(private val product: I_M_Product) {
